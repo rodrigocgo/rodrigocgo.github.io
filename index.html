@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Mini Game da Memória</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/howler@2.2.3/dist/howler.min.js"></script>
+
     <script src=game.js></script>
 
    
@@ -12,7 +14,7 @@
 </head>
 <body>
     <a-scene inspector="url: https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js">
-        
+
        <!-- caixas -->
         <a-box id="caixa1" position="-1 1.5 -3" color="gray"></a-box>
         <a-box id="caixa2" position="1 1.5 -3" color="gray"></a-box>
@@ -23,14 +25,21 @@
         <a-box id="default-Box" visible= false position="1.04691 2.7702 -3.34692" color="#000" width="0.5" height="0.5" depth="0.5" material="" geometry=""></a-box>
         <a-box id="default-Box" visible= false position="3.09667 2.74849 -3.1589" color="#000" width="0.5" height="0.5" depth="0.5" material="" geometry=""></a-box>
         
-        <a-text id="titulo" position="1.05563 3.864 -2.72518" value="Memory Game" color="#000" position="-1 2 -3" align="center"font="https://cdn.aframe.io/fonts/Monoid.fnt" ></a-text>
+        <a-text scale = "3 3 3" id="titulo" position="1.05563 3.864 -2.72518" value="Memory Game" color="#FF00FF" position="-1 2 -3" align="center"font="https://cdn.aframe.io/fonts/Monoid.fnt" ></a-text>
         
         <!-- chão -->
-        <a-plane position="0 1.095 -4" rotation="-90 0 0" width="100" height="1000" color="#7BC8A4"></a-plane>
+        <a-plane position="0 1.095 -4" rotation="-90 0 0" width="100" height="1000" color="#4169E1"></a-plane>
      
-        <a-entity id="btn-iniciar" visible="true" data-disabled="false"  position="-2.498 2.49 -1.62718" material="color: green; shader: flat" scale="0.368 0.34 0.21" text="value: Iniciar" geometry="primitive: circle"></a-entity>
+        <a-entity id="btn-iniciar" visible="true" data-disabled="false" position="-2.498 2.49 -1.62718">
+            <a-circle material="color: green; shader: flat" scale="0.368 0.34 0.21"></a-circle>
+            <a-text value="iniciar" color="#000" align="center" position="0 0.05 0" scale="1 1 1"></a-text>
+        </a-entity>
+          
         
-        <a-entity id="btn-pausar" visible="false" data-disabled="true" position="-3.498 2.49 -1.62718" material="color: red; shader: flat" text="value: Pausar" geometry="primitive: circle" scale="0.368 0.34 0.21"></a-entity>
+        <a-entity id="btn-pausar" visible="false" data-disabled="true" position="-3.498 2.49 -1.62718">
+            <a-circle material="color: red; shader: flat" scale="0.368 0.34 0.21"></a-circle>
+            <a-text value="PARAR" color="#000" align="center" position="0 0.05 0" scale="1 1 1"></a-text>
+        </a-entity>
  
         <!-- Camera -->
         <a-entity id="camera" camera wasd-controls look-controls position="0, 1.6, 5">
@@ -40,8 +49,10 @@
 
         <a-light type="ambient" color="#ffffff"></a-light>
         <a-sky color="#87CEEB"></a-sky>
-
-      
+        
+        
+        <a-sky src="1.jpg"></a-sky>
+         
 
 
     </a-scene>

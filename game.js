@@ -1,3 +1,6 @@
+//som iniciado
+let somIniciado = false;
+
 //intervalo de tempo
 let intervalo;
 
@@ -39,18 +42,34 @@ function compararPadrao() {
     
     if (compararCores(caixa1.getAttribute('color'), padrao[0]) && compararCores(caixa2.getAttribute('color'), padrao[1]) && compararCores(caixa3.getAttribute('color'), padrao[2])) {
         titulo.setAttribute('value', 'Voce Acertou!');
+        var som = new Howl({
+            src: ['win.mp3']
+        });
+        som.play();
 
     } else {
-        titulo.setAttribute('value', 'As cores nao correspondem!');
+        titulo.setAttribute('value', 'PADRAO ERRADO!');
+        var som = new Howl({
+            src: ['lose.mp3']
+        });
+        som.play();
 
     }
+    
+   
 }
 
 function atualizarContagemRegressiva(tempoRestante) {
     const titulo = document.querySelector('#titulo');
-    titulo.setAttribute('value', `Tempo restante: ${tempoRestante}s`);
+    titulo.setAttribute('value', `RESOLVA ${tempoRestante}s`);
 }
 
+function audioBox(){
+    var som = new Howl({
+        src: ['box.mp3']
+    });
+    som.play();
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     
@@ -68,29 +87,47 @@ document.addEventListener('DOMContentLoaded', function () {
     caixa1.addEventListener('click', function() {
         if (!caixasBloqueadas) {
             mudarCor(this);
+            audioBox();
         }
     });
     
     caixa2.addEventListener('click', function() {
         if (!caixasBloqueadas) {
             mudarCor(this);
+            audioBox();
         }
     });
     
     caixa3.addEventListener('click', function() {
         if (!caixasBloqueadas) {
             mudarCor(this);
+            audioBox();
         }
     });
     
     
     btnIniciar.addEventListener('click', function() {
-        
+
+        if (!somIniciado)
+        {
+          var som = new Howl({
+             src: ['ambient.mp3']
+            });
+            som.play();
+
+            somIniciado = true;
+        }
+
         if (this.getAttribute('data-disabled') === 'true') {
             return;
         }
+
+        var som = new Howl({
+            src: ['btniniciar.mp3']
+        });
+        som.play();
         
-        titulo.setAttribute('value', 'REPITA AS CORES ACIMA');
+        titulo.setAttribute('value', 'ATENCAO!');
 
         caixa1.setAttribute('color', 'grey');
         caixa2.setAttribute('color', 'grey');
@@ -126,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function () {
             caixasBloqueadas = false;
 
             // Dar ao usuário 30 segundos para clicar nas caixas
-        let tempoRestante = 30;
+        let tempoRestante = 10;
         atualizarContagemRegressiva(tempoRestante);
         intervalo = setInterval(function() {
             tempoRestante--;
@@ -136,6 +173,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 clearInterval(intervalo);
                 caixasBloqueadas = true; 
                 titulo.setAttribute('value', 'Tempo Esgostado!');
+
+                var som = new Howl({
+                    src: ['lose.mp3']
+                });
+                som.play();
+               
             }
         }, 1000); // Atualizar a cada 1 segundo
 
@@ -143,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Dar ao usuário 30 segundos para clicar nas caixas
             setTimeout(function() {
                 caixasBloqueadas = true;
-            }, 30000); // 30 segundos
+            }, 10000); // 10 segundos
     
         }, 3000);
         
@@ -152,11 +195,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     btnPausar.addEventListener('click', function() {
-        console.log("teste");
     
         if (this.getAttribute('data-disabled') === 'true') {
             return;
         }
+
+        var som = new Howl({
+            src: ['btniniciar.mp3']
+        });
+        som.play();
 
         clearInterval(intervalo);
         titulo.setAttribute('value', 'Memory Game');
