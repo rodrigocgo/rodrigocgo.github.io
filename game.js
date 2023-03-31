@@ -1,3 +1,11 @@
+//TempoRestante ou nivel
+let tempoRestante = 10;
+let nivel = 1;
+
+//erros
+let numAcertos = 0;
+let numErros = 0;
+
 //som iniciado
 let somIniciado = false;
 
@@ -46,6 +54,11 @@ function compararPadrao() {
             src: ['assets/sound/win.mp3']
         });
         som.play();
+        numAcertos++;
+        tempoRestante--;
+        nivel++;
+
+        document.querySelector('#nivel').setAttribute('value', `NIVEL ${nivel}`);
 
     } else {
         titulo.setAttribute('value', 'PADRAO ERRADO!');
@@ -53,8 +66,13 @@ function compararPadrao() {
             src: ['assets/sound/lose.mp3']
         });
         som.play();
+        numErros++;
 
     }
+
+    document.querySelector('#placar-acertos').setAttribute('value', `ACERTOS ${numAcertos}`);
+    document.querySelector('#placar-erros').setAttribute('value', `ERROS ${numErros}`);
+
     
    
 }
@@ -82,6 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
     caixa3 = document.querySelector('#caixa3');
     btnIniciar = document.querySelector('#btn-iniciar');
     btnPausar = document.querySelector('#btn-pausar');
+    document.querySelector('#nivel').setAttribute('value', `NIVEL ${nivel}`);
 
     // evento de clique nas caixas
     caixa1.addEventListener('click', function() {
@@ -123,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         var som = new Howl({
-            src: ['btniniciar.mp3']
+            src: ['assets/sound/btniniciar.mp3']
         });
         som.play();
         
@@ -163,24 +182,19 @@ document.addEventListener('DOMContentLoaded', function () {
             caixasBloqueadas = false;
 
             // Dar ao usuário 30 segundos para clicar nas caixas
-        let tempoRestante = 10;
-        atualizarContagemRegressiva(tempoRestante);
+        console.log(tempoRestante);
+            let tempoAxu = tempoRestante;
+        atualizarContagemRegressiva(tempoAxu);
         intervalo = setInterval(function() {
-            tempoRestante--;
-            atualizarContagemRegressiva(tempoRestante);
+            tempoAxu--;
+            atualizarContagemRegressiva(tempoAxu);
 
-            if (tempoRestante <= 0) {
+            if (tempoAxu <= 0) {
                 clearInterval(intervalo);
                 caixasBloqueadas = true; 
                 titulo.setAttribute('value', 'Tempo Esgostado!');
-
-                var som = new Howl({
-                    src: ['assets/sound/lose.mp3']
-                });
-                som.play();
-               
-            }
-        }, 1000); // Atualizar a cada 1 segundo
+          }
+        }, tempoRestante*100); // Atualizar a cada 1 segundo
 
     
             // Dar ao usuário 30 segundos para clicar nas caixas
