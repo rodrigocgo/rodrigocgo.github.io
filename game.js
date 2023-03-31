@@ -43,14 +43,14 @@ function compararPadrao() {
     if (compararCores(caixa1.getAttribute('color'), padrao[0]) && compararCores(caixa2.getAttribute('color'), padrao[1]) && compararCores(caixa3.getAttribute('color'), padrao[2])) {
         titulo.setAttribute('value', 'Voce Acertou!');
         var som = new Howl({
-            src: ['win.mp3']
+            src: ['assets/sound/win.mp3']
         });
         som.play();
 
     } else {
         titulo.setAttribute('value', 'PADRAO ERRADO!');
         var som = new Howl({
-            src: ['lose.mp3']
+            src: ['assets/sound/lose.mp3']
         });
         som.play();
 
@@ -66,7 +66,7 @@ function atualizarContagemRegressiva(tempoRestante) {
 
 function audioBox(){
     var som = new Howl({
-        src: ['box.mp3']
+        src: ['assets/sound/box.mp3']
     });
     som.play();
 }
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!somIniciado)
         {
           var som = new Howl({
-             src: ['ambient.mp3']
+             src: ['assets/sound/ambient.mp3']
             });
             som.play();
 
@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 titulo.setAttribute('value', 'Tempo Esgostado!');
 
                 var som = new Howl({
-                    src: ['lose.mp3']
+                    src: ['assets/sound/lose.mp3']
                 });
                 som.play();
                
@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         var som = new Howl({
-            src: ['btniniciar.mp3']
+            src: ['assets/sound/btniniciar.mp3']
         });
         som.play();
 
