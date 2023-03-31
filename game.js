@@ -1,6 +1,10 @@
+//terminou
+let bTerminou= false;
+
 //TempoRestante ou nivel
 let tempoRestante = 10;
 let nivel = 1;
+let bPerdeu = false;
 
 //erros
 let numAcertos = 0;
@@ -48,7 +52,19 @@ function compararPadrao() {
     
     const titulo = document.querySelector('#titulo');
     
-    if (compararCores(caixa1.getAttribute('color'), padrao[0]) && compararCores(caixa2.getAttribute('color'), padrao[1]) && compararCores(caixa3.getAttribute('color'), padrao[2])) {
+    if(bPerdeu)
+    {
+        titulo.setAttribute('value', 'TENTAR NOVAMENTE!');
+        var som = new Howl({
+            src: ['assets/sound/lose.mp3']
+        });
+        som.play();
+        numErros++;
+    }
+    else if (compararCores(caixa1.getAttribute('color'), padrao[0]) && 
+       compararCores(caixa2.getAttribute('color'), padrao[1]) && 
+       compararCores(caixa3.getAttribute('color'), padrao[2])) {
+
         titulo.setAttribute('value', 'Voce Acertou!');
         var som = new Howl({
             src: ['assets/sound/win.mp3']
@@ -126,8 +142,10 @@ document.addEventListener('DOMContentLoaded', function () {
     
     
     btnIniciar.addEventListener('click', function() {
-
-        if (!somIniciado)
+        bTerminou= true;
+        bPerdeu = false;
+        
+          if (!somIniciado)
         {
           var som = new Howl({
              src: ['assets/sound/ambient.mp3']
@@ -171,6 +189,8 @@ document.addEventListener('DOMContentLoaded', function () {
         btnPausar.setAttribute('visible',false);
         btnPausar.setAttribute('data-disabled',true);
 
+        caixasBloqueadas = true;
+
         // aguardar alguns segundos antes de iniciar a jogada
         setTimeout(function() {
             // resetar as cores das caixas
@@ -192,15 +212,19 @@ document.addEventListener('DOMContentLoaded', function () {
             if (tempoAxu <= 0) {
                 clearInterval(intervalo);
                 caixasBloqueadas = true; 
+                console.log("bloqueou a caixa1")
                 titulo.setAttribute('value', 'Tempo Esgostado!');
+                bPerdeu = true;
           }
-        }, tempoRestante*100); // Atualizar a cada 1 segundo
+        }, 1000); // Atualizar a cada 1 segundo
 
     
-            // Dar ao usuário 30 segundos para clicar nas caixas
             setTimeout(function() {
+                if (bTerminou) return;
+
                 caixasBloqueadas = true;
-            }, 10000); // 10 segundos
+                console.log("bloqueou a caixa2")
+            }, tempoRestante*1000); // 10 segundos
     
         }, 3000);
         
@@ -209,6 +233,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     btnPausar.addEventListener('click', function() {
+        bTerminou = true;
+        caixasBloqueadas = true;
     
         if (this.getAttribute('data-disabled') === 'true') {
             return;
