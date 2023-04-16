@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>demo: aframe-maze-component</title>
+    <meta name="description" content="demo: aframe-maze-component">        
+    <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
+    <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.6.0/dist/aframe-look-at-component.min.js"></script> 
+    <script src="https://unpkg.com/aframe-maze-component@0.1.24/dist/aframe-maze-component.min.js"></script>
+    <script src="scripts/maze_logic.js"></script>
+
+
+  </head>
+  <body>
+    <a-scene id = "labirinto" inspector="url: https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js">
+      <a-assets>
+        <img id="texture-wall" src="assets/image/wall.jpg">
+        <img id="texture-floor" src="assets/image/ground.jpg">
+        <img id="seta-azul" src="assets/image/seta_blue.png" />
+        <img id="seta-vermelho" src="assets/image/seta_red.png" />
+
+        <a-box id="wall-one" 
+          static-body material="src: #texture-wall" 
+          depth="1" width="5" height="5"></a-box>
+        <a-box id="end-cap"
+          static-body color="#444444" 
+          depth="1.1" width="1.1" height="2"
+          radius="0.5"></a-box>
+      </a-assets>
+      <a-sky src="assets/image/1.jpg"></a-sky>
+      
+      <a-box id="pilar" 
+          static-body
+          position="90 0 10"
+          color="red" 
+          depth="0.5" width="0.5" height="10"
+          collider="type: box;">
+          <a-animation attribute="rotation" to="0 360 0" dur="2000" easing="linear" repeat="indefinite"></a-animation>
+          <a-animation attribute="color" to="#FF0000" dur="1000" easing="ease-in-out" repeat="indefinite"></a-animation>
+          <a-animation attribute="color" to="#0000FF" dur="1000" easing="ease-in-out" repeat="indefinite"></a-animation>
+          <a-animation attribute="color" to="#00FF00" dur="1000" easing="ease-in-out" repeat="indefinite"></a-animation>
+      </a-box>
+
+      <a-entity id="player" 
+      camera
+      universal-controls="movementAcceleration: 110; fly: true"
+      kinematic-body 
+      position="-20 10.8 20"
+      collider="type: sphere; radius: 0.5"> 
+    <a-cursor material="" raycaster="" cursor="" geometry=""></a-cursor>
+  </a-entity>
+  
+
+      <!-- birds-eye view box to stand on -->
+      <!-- lower platform -->
+      <a-box 
+          id="plataforma"
+          static-body 
+          depth="0.25" height="1" width="1" 
+          position="-20 9.8 20"
+          rotation="-90 0 0"
+          color="tomato">
+        </a-box>
+
+      
+      <a-grid id="ground" width="200" height="200" static-body material="src: #texture-floor" collider="type: grid"></a-grid>></a-grid>
+
+
+ <!-- A seta da bússola (usando imagem personalizada) -->
+<a-entity id="compass-arrow" position="0 0 0" rotation="0 0 0">
+  <a-image src="#seta-azul" position="0 15 0" width="15" height="15" side="double" rotation="0 0 0" scale="-1 1 1" image-switcher></a-image>
+</a-entity>
+
+
+
+    </a-scene>
+  </body>
+</html>

@@ -105,6 +105,7 @@ function audioBox(){
     som.play();
 }
 
+
 document.addEventListener('DOMContentLoaded', function () {
     
     // Atribuir o valor do texto "Jogo da Memória"
