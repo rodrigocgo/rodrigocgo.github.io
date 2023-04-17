@@ -22,7 +22,20 @@ document.addEventListener('DOMContentLoaded', function () {
    const pilar = document.querySelector('#ground');
    const player = document.querySelector('#player');
 
-   console.log(player.getAttribute('universal-controls'))
+   var seconds = 0;
+   var counter;
+
+   seconds = 0;
+      counter = setInterval(function(){
+        var board = document.getElementById('board');
+        var attr_text = board.getAttribute('value');
+
+
+        attr_text = seconds++;
+        board.setAttribute('value',attr_text);
+      },1000);
+    
+
 
    pilar.addEventListener('collide', function (event) {
       if (!bCriouMaze){

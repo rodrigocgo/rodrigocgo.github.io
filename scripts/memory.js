@@ -65,7 +65,8 @@ function compararPadrao() {
        compararCores(caixa2.getAttribute('color'), padrao[1]) && 
        compararCores(caixa3.getAttribute('color'), padrao[2])) {
 
-        titulo.setAttribute('value', 'Voce Acertou!');
+        titulo.setAttribute('value', 'VOCE ACERTOU!');
+        titulo.setAttribute('color', 'yellow');
         var som = new Howl({
             src: ['assets/sound/win.mp3']
         });
@@ -78,6 +79,7 @@ function compararPadrao() {
 
     } else {
         titulo.setAttribute('value', 'PADRAO ERRADO!');
+        titulo.setAttribute('color', 'red');
         var som = new Howl({
             src: ['assets/sound/lose.mp3']
         });
@@ -95,7 +97,7 @@ function compararPadrao() {
 
 function atualizarContagemRegressiva(tempoRestante) {
     const titulo = document.querySelector('#titulo');
-    titulo.setAttribute('value', `RESOLVA ${tempoRestante}s`);
+    titulo.setAttribute('value', `${tempoRestante}s`);
 }
 
 function audioBox(){
@@ -165,6 +167,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         som.play();
         
+        titulo.setAttribute('color',"#FF00FF")
         titulo.setAttribute('value', 'ATENCAO!');
 
         caixa1.setAttribute('color', 'grey');
@@ -214,7 +217,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 clearInterval(intervalo);
                 caixasBloqueadas = true; 
                 console.log("bloqueou a caixa1")
-                titulo.setAttribute('value', 'Tempo Esgostado!');
+
+                titulo.setAttribute('color', 'red');
+                titulo.setAttribute('value', 'TEMPO ESGOTADO');
                 bPerdeu = true;
           }
         }, 1000); // Atualizar a cada 1 segundo

@@ -10,7 +10,6 @@
     <script src="https://unpkg.com/aframe-maze-component@0.1.24/dist/aframe-maze-component.min.js"></script>
     <script src="scripts/maze_logic.js"></script>
 
-
   </head>
   <body>
     <a-scene id = "labirinto" inspector="url: https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js">
@@ -19,7 +18,9 @@
         <img id="texture-floor" src="assets/image/ground.jpg">
         <img id="seta-azul" src="assets/image/seta_blue.png" />
         <img id="seta-vermelho" src="assets/image/seta_red.png" />
-
+        
+        <a-asset-item id="arvore" src="assets/Lowpoly_tree_sample.obj"></a-asset-item>
+       
         <a-box id="wall-one" 
           static-body material="src: #texture-wall" 
           depth="1" width="5" height="5"></a-box>
@@ -28,6 +29,9 @@
           depth="1.1" width="1.1" height="2"
           radius="0.5"></a-box>
       </a-assets>
+
+      <a-entity gltf-model="#arvore" position="0 0 -5" scale="1 1 1"></a-entity>
+
       <a-sky src="assets/image/1.jpg"></a-sky>
       
       <a-box id="pilar" 
@@ -44,11 +48,19 @@
 
       <a-entity id="player" 
       camera
+      sound="src: url(assets/sound/bat.mp3); on: collide; volume:0.08;" 
       universal-controls="movementAcceleration: 110; fly: true"
       kinematic-body 
       position="-20 10.8 20"
       collider="type: sphere; radius: 0.5"> 
-    <a-cursor material="" raycaster="" cursor="" geometry=""></a-cursor>
+      <a-entity cursor="fuse: true; fuseTimeout: 500"
+                  position="0 0 -1"
+                  geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+                  material="color:#20639B; shader: flat">
+      </a-entity>
+
+      <a-text scale="3 3 3" fnt:assets/font/SourceCodePro.fnt id="board" position="0 2 -2.72518" value="0" color="#FF00FF" align="center" ></a-text>   
+        
   </a-entity>
   
 
@@ -71,6 +83,7 @@
 <a-entity id="compass-arrow" position="0 0 0" rotation="0 0 0">
   <a-image src="#seta-azul" position="0 15 0" width="15" height="15" side="double" rotation="0 0 0" scale="-1 1 1" image-switcher></a-image>
 </a-entity>
+ 
 
 
 
