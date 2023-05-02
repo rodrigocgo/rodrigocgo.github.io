@@ -3,19 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Mini Game da Memória</title>
-    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/howler@2.2.3/dist/howler.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@fb96ab2/dist/aframe-extras.js"></script>
     <script src="scripts/principal.js"></script>
+    <script src="https://unpkg.com/super-hands@3.0.1/dist/super-hands.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
+
+
     
 </head>
 <body>
-    <a-scene id="principal" fog="color: #773737; density: 0.24" inspector="url: https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js">
+    <a-scene physics="debug: true" id="principal" fog="color: #773737; density: 0.24" inspector="url: https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js">
 
         <a-text scale="3 3 3" font="https://cdn.aframe.io/fonts/Monoid.fnt" id="titulo" position="1.05563 6.864 -2.72518" value="Escolha" color="#FF00FF" align="center" text="color: #ff14b5; alphaTest: 0.9; side: double"></a-text> 
        
         <!-- chão -->
-        <a-plane position="0 1.095 -4" rotation="-90 0 0" width="100" height="1000" color="#4169E1"></a-plane>
+        <a-plane static-body position="0 1.095 -4" rotation="-90 0 0" width="100" height="1000" color="#4169E1"></a-plane>
      
         <a-entity id="btn-iniciar" visible="true" data-disabled="false" position="-3.498 2.49 -1.627">
             <!-- <a-circle material="color: green; shader: flat" scale="0.368 0.34 0.21"></a-circle> -->
@@ -26,33 +30,38 @@
         <a-entity id="piramide1" scale="1 -1 1" geometry="primitive: cone; height: 2; base: 1.5; segments-radial: 4;"
         material="color: red;"
         position="-2.378 2.26443 -5"
-        animation="property: rotation; to: 0 360 0; loop: true; dur: 2000; easing: linear"></a-entity>
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 2000; easing: linear"
+        static-body
+        ></a-entity>
 
         <a-entity id="piramide2" scale="1 1 1" geometry="primitive: cone; height: 2; base: 1.5; segments-radial: 4;"
         material="color: red;"
         position="-2.378 4.26813 -5"
-        animation="property: rotation; to: 0 360 0; loop: true; dur: 2000; easing: linear"></a-entity>
-
-
-        <a-entity id="piramide3" scale="1 -1 1" geometry="primitive: cone; height: 2; base: 1.5; segments-radial: 4;"
-        material="color: red;"
-        position=" 2.378 2.26443 -5"
-        animation="property: rotation; to: 0 360 0; loop: true; dur: 2000; easing: linear"></a-entity>
-        ></a-entity>
-
-        <a-entity id="piramide4" scale="1 1 1" geometry="primitive: cone; height: 2; base: 1.5; segments-radial: 4;"
-        material="color: red;"
-        position=" 2.378 4.26813 -5"
-        animation="property: rotation; to: 0 360 0; loop: true; dur: 2000; easing: linear"></a-entity>
-        ></a-entity>
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 2000; easing: linear"
       
-      <!-- Camera -->
-      <a-entity id="camera" 
-                camera 
-                wasd-controls="acceleration: 40"
-                look-controls="" position="0.60999 1.97345 5.07495" rotation="4.125296124941932 -1.1459155902616411 0" data-aframe-inspector-original-camera="">
-        <a-cursor material="" raycaster="" cursor="" geometry=""></a-cursor>
-      </a-entity>
+        grabbable
+        static-body
+        ></a-entity>
+        
+        <a-box 
+        collider="type: box;"
+        dynamic-body
+        position="1 1 1" width="3" height="3" depth="1"
+        constraint="collisionFlag: 2">
+      </a-box>
+      
+
+        <a-entity id="camera" 
+        kinematic-body
+        camera 
+        wasd-controls="acceleration: 40"
+        look-controls="" 
+        position="0.60999 1.97345 5.07495" 
+        rotation="4.125296124941932 -1.1459155902616411 0" 
+        data-aframe-inspector-original-camera=""
+        super-hands>
+<a-cursor material="" raycaster="" cursor="" geometry=""></a-cursor>
+</a-entity>
       
     
         <a-sky src="assets/image/1.jpg"></a-sky>
