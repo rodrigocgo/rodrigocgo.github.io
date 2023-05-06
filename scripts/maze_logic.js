@@ -1,8 +1,11 @@
-let bCriouMaze   = false;
-let bTimeoutMAze = false;
-let bStartouGame = false;
-let bSaiuMaze    = false;
-let bClicou      = false;
+let bCriouMaze        = false;
+let bTimeoutMAze      = false;
+let bStartouGame      = false;
+let bSaiuMaze         = false;
+let bClicou           = false;
+let bChegouPFinal     = false;
+let bClicouCaixaFinal = false;
+let bEncontrouPadrao  = false;
 
 AFRAME.registerComponent("image-switcher", {
    init: function () {
@@ -211,20 +214,37 @@ function EventoChegada(){
      removeByID('flag');
      
      bSaiuMaze = true;
+     trocaAmbieite();
 
      setTimeout(function() {
       
       visibleObj('plataforma-final','true');
       visibleObj('escada','true');
-      visibleObj('caixa-criativa','true');
-      visibleObj('esfera','true');
-      visibleObj('cone','true');
-      ObjetoFinaisCaindo();
+      //visibleObj('caixa-criativa','true');
+      //visibleObj('esfera','true');
+      //visibleObj('cone','true');
+      //ObjetoFinaisCaindo();
+      criaCaixaAleatoria();
+      criaCaixaAleatoria();
 
      },2500);
    
    });
    
+}
+
+function PlatataformaFinalCollide(){
+
+   const pFinal = document.getElementById('plataforma-final');
+
+   pFinal.addEventListener('collide',function(e){
+    
+      if (!bChegouPFinal)
+        escreveBoardLetraMenor("Descubra o segredo da caixa colorida");
+
+      bChegouPFinal = true;
+   });
+
 }
 
 function ObjetoFinaisCaindo(){
@@ -242,15 +262,72 @@ function MostraSetaFlag(){
    visibleObj('flag','true');
 }
 
-function eventoCliqueCaixaFinal(){
-   
-   var CaixaFinal =  document.getElementById("caixa-final");
+function RemoveAnimacaoCaixaFinal(objCaixa){
 
-   btnIniciar.addEventListener('click', function() {
+  if (bClicouCaixaFinal) return;
+   // obtém todas as animações dentro do elemento a-box
+  const animacoes = objCaixa.querySelectorAll('a-animation');
 
-   });
+  // remove cada animação, exceto a animação de rotação
+  animacoes.forEach(animacao => {
+    if (animacao.getAttribute('attribute') !== 'rotation') {
+      animacao.parentNode.removeChild(animacao);
+    }
+  });
 
+  bClicouCaixaFinal = true;
 }
+
+function Transporta3Segundos(){
+   setTimeout(function() {
+      window.location.href = "memory.html";
+    },3000);
+}
+
+function TrocaCorCaixa() {
+   
+   const caixaFinal = document.querySelector('#caixa-final');
+ 
+   const cores = ['blue', 'green', 'red', 'yellow', 'black', 'white', 'pink'];
+ 
+   RemoveAnimacaoCaixaFinal(caixaFinal);
+ 
+   // seleciona uma cor aleatória do vetor de cores
+   const cor = cores[Math.floor(Math.random() * cores.length)];
+ 
+   if (cor === 'green') {
+     
+      // exibe mensagem de padrao encontrado
+     escreveBoardLetraMenor("Voce sera transportado!");
+     
+     // remove o eventListener se a cor for verde
+     caixaFinal.removeEventListener('click', TrocaCorCaixa);
+     
+     caixaFinal.setAttribute('color', cor);
+     Transporta3Segundos();
+
+   } else {
+     // altera a cor da caixa final para a cor selecionada
+     caixaFinal.setAttribute('color', cor);
+   }
+ }
+ 
+ function eventoCliqueCaixaFinal() {
+   const caixaFinal = document.querySelector('#caixa-final');
+
+   // adiciona ou remove o eventListener de acordo com o valor da variável bEncontrouPadrao
+   if (bEncontrouPadrao) {
+     caixaFinal.removeEventListener('click', TrocaCorCaixa);
+   } else {
+     caixaFinal.addEventListener('click', TrocaCorCaixa);
+   }
+ };
+
+ function trocaAmbieite(){
+  const env = document.getElementById('env');
+  env.setAttribute('environment','preset: tron');
+
+ }
 
 function CriaLabirinto(){
    const cena = document.querySelector('#labirinto');
@@ -263,8 +340,39 @@ function CriaLabirinto(){
 }
 
 
+function mudarCena() {
+   // seleciona a tag a-scene atual
+   const cenaAtual = document.querySelector('#labirinto');
+ 
+   // define a cena desejada como o novo valor do atributo 'src' da tag a-scene
+   cenaAtual.setAttribute('src', "index.html");
+
+   console.log("teste")
+ }
+
+ function criaCaixaAleatoria() {
+
+   // Gera posições aleatórias para x, y e z
+   const x = Math.floor(Math.random() * 20) - 10;
+   const y = Math.floor(Math.random() * 5) + 2.5;
+   const z = Math.floor(Math.random() * 20) - 10;
+ 
+   // Cria uma nova entidade para a caixa
+   const cena = document.querySelector('#labirinto');
+   const novaCaixa = document.createElement('a-box');
+   novaCaixa.setAttribute('color', 'red');
+   novaCaixa.setAttribute('position', `${x} ${y} ${z}`);
+   novaCaixa.setAttribute('collider','type: box;');
+   novaCaixa.setAttribute('dynamic-body','');
+
+   cena.appendChild(novaCaixa);
+ }
+
 document.addEventListener('DOMContentLoaded', function () {
+   PlatataformaFinalCollide();
    EventoChegada();
    RegistraPuloTeclaEspaco();
    StartGame();
+   eventoCliqueCaixaFinal();
+
 });

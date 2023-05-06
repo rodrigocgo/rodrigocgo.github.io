@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Game da Memória</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/howler@2.2.3/dist/howler.min.js"></script>
+    <script>src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@fb96ab2/dist/aframe-extras.js"</script>
+    <script src=scripts/memory.js></script>
+   
+
+</head>
+<body>
+      
+      <a-scene id="memoryGame" fog="color: #773737; density: 0.24" inspector="url: https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js">
+
+        <a-text id="placar-acertos" visible = "false" fnt:assets/font/SourceCodePro.fnt position="-8.78433 4.77121 -1.4116" value="ACERTOS 0" color="green" scale="2 2 2" text="" rotation="0 52.458 0"></a-text>
+        <a-text id="placar-erros" visible = "false" fnt:assets/font/SourceCodePro.fnt position="-8.16992 6.2 -1.53092" value="ERROS 0" color="red" scale="2 2 2" text="" rotation="0 52.458 0"></a-text>       
+      
+        <!-- caixas -->
+        <a-box id="caixa1" position="-1 1.5 -3" color="gray" animation="property: rotation; to: 0 360 0; loop: true; dur: 2000; easing: linear;"></a-box>
+        <a-box id="caixa2" position="1 1.5 -3" color="gray" animation="property: rotation; to: 0 360 0; loop: true; dur: 2000; easing: linear;"></a-box>
+        <a-box id="caixa3" position="3 1.5 -3" color="gray" animation="property: rotation; to: 0 360 0; loop: true; dur: 2000; easing: linear;"></a-box>
+        
+        <!-- caixas default-->
+        <a-box id="default-Box" visible= false position="-1.21202 2.757 -3.6" color="#000" width="0.5" height="0.5" depth="0.5" material="" geometry=""></a-box>
+        <a-box id="default-Box" visible= false position="1.04691 2.7702 -3.34692" color="#000" width="0.5" height="0.5" depth="0.5" material="" geometry=""></a-box>
+        <a-box id="default-Box" visible= false position="3.09667 2.74849 -3.1589" color="#000" width="0.5" height="0.5" depth="0.5" material="" geometry=""></a-box>
+        
+        <!-- chão -->
+        <a-plane visible="true" position="0 1.095 -4" rotation="-90 0 0" width="100" height="1000" color="#4169E1"></a-plane>
+     
+        <a-entity id="btn-iniciar" visible="true" data-disabled="false" position="-3.498 2.49 -1.627">
+            <!-- <a-circle material="color: green; shader: flat" scale="0.368 0.34 0.21"></a-circle> -->
+            <!-- <a-text fnt:assets/font/SourceCodePro.fnt value="iniciar" color="#000" align="center" position="0 0.05 0" scale="1 1 1"></a-text> -->
+            <a-image src="assets/image/start.png" position="0 0.05 0" width="15" height="15" side="double" rotation="0 0 0" scale="0.1 0.1 0.1" image-switcher></a-image> 
+        </a-entity>
+          
+        
+        <a-entity id="btn-pausar" visible="false" data-disabled="true" position="-4.498 2.49 -1.62718">
+            <!-- <a-circle material="color: red; shader: flat" scale="0.368 0.34 0.21"></a-circle> -->
+            <!-- <a-text fnt:assets/font/SourceCodePro.fnt value="PARAR" color="#000" align="center" position="0 0.05 0" scale="1 1 1"></a-text> -->
+            <a-image src="assets/image/reset.png" position="0 0.05 0" width="15" height="15" side="double" rotation="0 0 0" scale="0.1 0.1 0.1" image-switcher></a-image> 
+        </a-entity>
+ 
+      <!-- Camera -->
+      <a-entity id="camera" 
+                camera 
+                wasd-controls="acceleration: 40"
+                look-controls="" position="0.60999 1.97345 5.07495" rotation="4.125296124941932 -1.1459155902616411 0" data-aframe-inspector-original-camera="">
+        <a-cursor material="" raycaster="" cursor="" geometry=""></a-cursor>
+        <a-text scale="2 2 2" fnt:assets/font/SourceCodePro.fnt id="titulo" position="0 2 -3" value="MEMORY GAME" color="#FF00FF" align="center"></a-text> 
+        <a-text scale="1 1 1" id="nivel" fnt:assets/font/SourceCodePro.fnt position="4 2 -3" value="NIVEL 1" color="#00ffbf" align="center" font="https://cdn.aframe.io/fonts/Monoid.fnt"></a-text>   
+    </a-entity>
+    
+        <a-sky src="assets/image/1.jpg"></a-sky>
+
+       
+
+    </a-scene>
+</body>
+</html>
