@@ -18,7 +18,6 @@
     
     <a-scene id = "labirinto" inspector="url: https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js"  physics="gravity: -9.5">
       
-      
       <a-entity id="env" environment="preset: osiris"></a-entity>
 
       <a-assets>
@@ -47,6 +46,7 @@
           position="93 12 -5"
           color="red" 
           depth="1.5" width="1.5" height="1.5"
+          visible="false"
           collider="type: box;">
           <a-animation attribute="rotation" to="0 360 0" dur="2000" easing="linear" repeat="indefinite"></a-animation>
           <a-animation id="troca_cor" attribute="color" to="#FF0000" dur="1000" easing="ease-in-out" repeat="indefinite"></a-animation>
@@ -57,7 +57,7 @@
       <!-- Camera e controles -->
       <a-entity id="player" 
         camera
-        universal-controls="movementAcceleration: 500; fly: false"
+        universal-controls="movementAcceleration: 200; fly: false"
         kinematic-body 
         position="-30 10.8 20"
         collider="type: sphere; radius: 0.5"> 
@@ -88,7 +88,6 @@
           rotation="-90 0 0"
           color="tomato">
         </a-box>
-      
     
     <a-box 
       id="plataforma-final"
@@ -97,7 +96,7 @@
       position="90 9.8 -5"
       rotation="-90 0 0"
       color="tomato"
-      visible="false">
+      visible="true">
     </a-box>
   
   <a-entity id="flag" visible="false">

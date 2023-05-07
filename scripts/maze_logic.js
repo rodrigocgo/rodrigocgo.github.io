@@ -6,6 +6,9 @@ let bClicou           = false;
 let bChegouPFinal     = false;
 let bClicouCaixaFinal = false;
 let bEncontrouPadrao  = false;
+let bCriouDesafio02 = false;
+let bCriouDesafio01 = false;
+let bDesafioFinal = false;
 
 AFRAME.registerComponent("image-switcher", {
    init: function () {
@@ -37,11 +40,65 @@ function StartGame() {
     });
 }
 
+function Desafio01SOM(){
+   var som = new Howl({
+      src: ['assets/sound/desafio_01.mp3']
+  });
+  som.play();
+}
+
+function Desafio02SOM(){
+   var som = new Howl({
+      src: ['assets/sound/desafio_02.mp3']
+  });
+  som.play();
+}
+
+function Escapar90sSOM(){
+   
+ 
+      var som = new Howl({
+         src: ['assets/sound/90s_escapar.mp3']
+     });
+     som.play();
+   
+}
+
+function EscadaSecretaSOM(){
+   
+  
+      var som = new Howl({
+         src: ['assets/sound/parabens_escada.mp3']
+     });
+     som.play();
+   
+}
+
+function TempoAcabouSOM(){
+ 
+      var som = new Howl({
+         src: ['assets/sound/time_over.mp3']
+     });
+     som.play();
+   
+}
+
+function SubiuEscadaSOM(){
+   
+      var som = new Howl({
+         src: ['assets/sound/subiu_escada.mp3']
+     });
+     som.play();
+   
+}
+
 
 function initGame(){
    
    var attr_text = 6;
-   
+
+   musicaAmbiente();
+   Escapar90sSOM();
    
    setTimeout(function() {
 
@@ -93,16 +150,32 @@ function removeByID(id)
    cena.removeChild(bloqueios);
 }
 
+function musicaAmbiente(){
+   var som = new Howl({
+      src: ['assets/sound/maze_ost.mp3'],
+      loop:'true',
+      volume:0.3
+  });
+  som.play();
+}
+
 function SomCount(){
    var som = new Howl({
       src: ['assets/sound/count.mp3']
   });
-  som.play()
+  som.play();
 }
 
 function SomWin(){
    var som = new Howl({
       src: ['assets/sound/win.mp3']
+  });
+  som.play()
+}
+
+function SomFinal(){
+   var som = new Howl({
+      src: ['assets/sound/final_som.mp3']
   });
   som.play()
 }
@@ -128,12 +201,12 @@ function contadorMaze(){
 
         attr_text = seconds++;
         
-        if (attr_text == 10 && !bSaiuMaze)
+        if (attr_text == 90 && !bSaiuMaze)
         {
            bTimeoutMAze = true;
            return;
         }
-        else if (attr_text < 10 && !bSaiuMaze)
+        else if (attr_text < 90 && !bSaiuMaze)
           escreveBoard(attr_text);
 
       }, 1000);
@@ -191,9 +264,15 @@ function MensagemComTimeout(str1,str2,timeout){
 function MensagemChegada(bTimeoutMAze)
 {
   if (bTimeoutMAze)
+  {
     escreveBoardLetraMenor("Suba na escada!");
+    TempoAcabouSOM();
+  }
   else
-    MensagemComTimeout("Parabens","Suba na escada!",5000);
+  {
+    MensagemComTimeout("Parabens","Suba na escada!",2000);
+    EscadaSecretaSOM();
+  }
 
 }
 
@@ -220,10 +299,6 @@ function EventoChegada(){
       
       visibleObj('plataforma-final','true');
       visibleObj('escada','true');
-      //visibleObj('caixa-criativa','true');
-      //visibleObj('esfera','true');
-      //visibleObj('cone','true');
-      //ObjetoFinaisCaindo();
       criaCaixaAleatoria();
       criaCaixaAleatoria();
 
@@ -233,29 +308,24 @@ function EventoChegada(){
    
 }
 
+function pltFinal(e){
+  
+   SomWin();
+   Desafio01SOM();
+   e.target.removeEventListener('collide',pltFinal);
+   setTimeout(function(){
+      Desafio1Timeout();
+      escreveBoardLetraMenor("Pule na cor que voce ache a correta!");
+   },5000);    
+
+}
+
 function PlatataformaFinalCollide(){
 
    const pFinal = document.getElementById('plataforma-final');
-
-   pFinal.addEventListener('collide',function(e){
-    
-      if (!bChegouPFinal)
-        escreveBoardLetraMenor("Descubra o segredo da caixa colorida");
-
-      bChegouPFinal = true;
-   });
-
+   pFinal.addEventListener('collide',pltFinal);
 }
 
-function ObjetoFinaisCaindo(){
-  var caixa =  document.querySelector('#caixa-criativa');
-  var cone =  document.querySelector('#cone');
-  var esfera =  document.querySelector('#esfera');
-  
-  caixa.setAttribute('dynamic-body','');
-  cone.setAttribute('dynamic-body','');
-  esfera.setAttribute('dynamic-body','');
-}
 
 function MostraSetaFlag(){
    visibleObj('compass-arrow','true');
@@ -278,10 +348,10 @@ function RemoveAnimacaoCaixaFinal(objCaixa){
   bClicouCaixaFinal = true;
 }
 
-function Transporta3Segundos(){
+function Transporta5Segundos(){
    setTimeout(function() {
       window.location.href = "memory.html";
-    },3000);
+    },10000);
 }
 
 function TrocaCorCaixa() {
@@ -333,22 +403,13 @@ function CriaLabirinto(){
    const cena = document.querySelector('#labirinto');
    const novaMaze = document.createElement('a-entity');
    novaMaze.setAttribute('id', 'maze1');
-   novaMaze.setAttribute('maze', 'size: 10 10; wall: #wall-one; cap: #end-cap 0.4; open: E 0 2 7 5 ;');
+   novaMaze.setAttribute('maze', 'size: 12 12; wall: #wall-one; cap: #end-cap 0.4; open: E 0 2 7 5 ;');
    novaMaze.setAttribute('position', '-10 0 0');
    novaMaze.setAttribute('rotation', '0 0 0');    
    cena.appendChild(novaMaze);
 }
 
 
-function mudarCena() {
-   // seleciona a tag a-scene atual
-   const cenaAtual = document.querySelector('#labirinto');
- 
-   // define a cena desejada como o novo valor do atributo 'src' da tag a-scene
-   cenaAtual.setAttribute('src', "index.html");
-
-   console.log("teste")
- }
 
  function criaCaixaAleatoria() {
 
@@ -368,11 +429,130 @@ function mudarCena() {
    cena.appendChild(novaCaixa);
  }
 
+ function criaNumeroAuxiliar(x, z, text) {
+   const textEl = document.createElement('a-text');
+   const posicoes = `${x} 11.8 ${z}`;
+;
+   textEl.setAttribute('position', posicoes);
+
+ 
+   textEl.setAttribute('value', text);
+   textEl.setAttribute('color', 'pink');
+   textEl.setAttribute('align', 'center');
+   textEl.setAttribute('scale', '10 10 10');
+   textEl.setAttribute('rotation','0 90 0');
+ 
+   return textEl;
+ }
+
+ function DevolvePlataforma(cor,x,z,bStatico){
+   const plataforma = document.createElement('a-box');
+   var posicoes = x + " 9.8 " + z; 
+
+   plataforma.setAttribute('color',cor);
+   plataforma.setAttribute('depth',0.25);
+   plataforma.setAttribute('height',2);
+   plataforma.setAttribute('width',2);
+   plataforma.setAttribute('rotation','-90 0 0');
+   plataforma.setAttribute('position',posicoes);
+
+   if(bStatico)
+     plataforma.setAttribute('static-body','');
+   
+
+   return plataforma;
+ }
+
+ function RemoveObj(obj){
+   const cena = document.querySelector('#labirinto');
+   cena.removeChild(obj);
+ }
+
+ function ApendaObj(obj){
+   const cena = document.querySelector('#labirinto');
+   cena.appendChild(obj);
+ }
+
+ function criaPlataformaFinal(){
+    
+   var plat = DevolvePlataforma('yellow',76,-5,true)
+   plat.addEventListener('collide',function(){
+      escreveBoardLetraMenor("Voce sera transportado!");
+      SomFinal();
+      Transporta5Segundos();
+   
+    });
+
+   ApendaObj(plat);    
+}
+
+ function FinalDesafio02(e){
+
+   const text = document.getElementById('textAux');
+   RemoveObj(text)
+   SomWin();
+   criaPlataformaFinal();
+   e.target.removeEventListener('collide', FinalDesafio02);
+ }
+
+ function CriaCaixaDesafio02(){
+  
+   
+   var text1 = criaNumeroAuxiliar(78,-4,"8");
+   var text2 = criaNumeroAuxiliar(78, 1,"16");
+   var text3 = criaNumeroAuxiliar(78,-9,"6");
+   
+   text1.setAttribute("id","textAux");
+   text2.setAttribute("id","textAux");
+   text3.setAttribute("id","textAux");
+
+   const caixaPrincipal = DevolvePlataforma('red',80,-5,true);
+   ApendaObj(DevolvePlataforma('red',80,-9,false));
+   ApendaObj(DevolvePlataforma('red',80,-1,false));
+   ApendaObj(caixaPrincipal);
+   
+   ApendaObj(text1);
+   ApendaObj(text2);
+   ApendaObj(text3);
+
+   caixaPrincipal.addEventListener('collide',FinalDesafio02);
+
+}
+
+
+function ChamaDesafio02(e){
+   SomWin();
+   e.target.removeEventListener('collide', ChamaDesafio02);
+   Desafio02SOM();
+   escreveBoardLetraMenor("");
+
+   setTimeout(function(){
+      CriaCaixaDesafio02();
+      escreveBoardLetraMenor("2..3..5..?..12");
+   
+   },7000);
+   
+   
+}
+
+ function Desafio1Timeout(){
+    setTimeout(CriaCaixaDesafio01(),7000);
+ }
+
+ function CriaCaixaDesafio01(){
+   const caixaPrincipal = DevolvePlataforma('green',85,-9,true);
+   
+   ApendaObj(DevolvePlataforma('red',85,-5,false));
+   ApendaObj(DevolvePlataforma('blue',85,-1,false));
+   ApendaObj(caixaPrincipal);   
+   caixaPrincipal.addEventListener('collide',ChamaDesafio02);
+}
+
+
 document.addEventListener('DOMContentLoaded', function () {
    PlatataformaFinalCollide();
    EventoChegada();
    RegistraPuloTeclaEspaco();
    StartGame();
    eventoCliqueCaixaFinal();
-
 });
