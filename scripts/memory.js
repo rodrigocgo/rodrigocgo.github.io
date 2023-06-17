@@ -1,3 +1,4 @@
+let bClicou           = false;
 //terminou
 let bTerminou= false;
 
@@ -44,9 +45,48 @@ let caixa1, caixa2, caixa3;
 }
 
 function compararCores(cor1, cor2) {
-    console.log("cor1 = " + cor1 + " cor2 = " + cor2)
+   
     return cor1 === cor2;
 }
+
+function StartGame() {
+
+    const titulo = document.querySelector('#titulo');
+    titulo.setAttribute('value', 'CLIQUE NA TELA PARA INICIAR');
+
+    document.addEventListener('click', function(event) {
+       if (!bClicou) {
+        titulo.setAttribute('value', '');
+        var som = new Howl({
+            src: ['assets/sound/ambient.mp3'],
+            loop:'true'
+           });
+           som.play();
+
+           var som = new Howl({
+            src: ['assets/sound/intro_memoria.mp3']
+            
+           });
+           som.play();
+
+          bClicou = true;
+          
+       }
+     });
+ }
+
+ function chamaCenaFechamento(){
+    
+    var som = new Howl({
+        src: ['assets/sound/final_memoria.mp3']
+        
+       });
+       som.play();
+
+    setTimeout(function() {
+        window.location.href = "cena_fechamento.html";
+      },7000);
+ }
 
 function compararPadrao() {
     
@@ -75,7 +115,12 @@ function compararPadrao() {
         tempoRestante--;
         nivel++;
 
-        document.querySelector('#nivel').setAttribute('value', `NIVEL ${nivel}`);
+        if (nivel == 5)
+        {
+          chamaCenaFechamento();
+        }
+
+        document.querySelector('#nivel').setAttribute('value', `NV ${nivel}`);
 
     } else {
         titulo.setAttribute('value', 'PADRAO ERRADO!');
@@ -110,6 +155,8 @@ function audioBox(){
 
 document.addEventListener('DOMContentLoaded', function () {
     
+    StartGame();
+
     // Atribuir o valor do texto "Jogo da Memória"
     
     
@@ -148,12 +195,9 @@ document.addEventListener('DOMContentLoaded', function () {
         bTerminou= true;
         bPerdeu = false;
         
-          if (!somIniciado)
+        if (!somIniciado)
         {
-          var som = new Howl({
-             src: ['assets/sound/ambient.mp3']
-            });
-            som.play();
+          
 
             somIniciado = true;
         }
@@ -168,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
         som.play();
         
         titulo.setAttribute('color',"#FF00FF")
-        titulo.setAttribute('value', 'ATENCAO!');
+        titulo.setAttribute('value', 'AGUARDE!');
 
         caixa1.setAttribute('color', 'grey');
         caixa2.setAttribute('color', 'grey');

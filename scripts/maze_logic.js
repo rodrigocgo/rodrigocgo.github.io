@@ -29,7 +29,7 @@ AFRAME.registerComponent("image-switcher", {
 });
 
 function StartGame() {
-   escreveBoardLetraMenor("Clique na tela para começar");
+   escreveBoardLetraMenor("Clique na tela para iniciar");
    
    document.addEventListener('click', function(event) {
       if (!bClicou) {
@@ -270,7 +270,7 @@ function MensagemChegada(bTimeoutMAze)
   }
   else
   {
-    MensagemComTimeout("Parabens","Suba na escada!",2000);
+    MensagemComTimeout("Excelente","Suba na escada!",2000);
     EscadaSecretaSOM();
   }
 
@@ -315,7 +315,7 @@ function pltFinal(e){
    e.target.removeEventListener('collide',pltFinal);
    setTimeout(function(){
       Desafio1Timeout();
-      escreveBoardLetraMenor("Pule na cor que voce ache a correta!");
+      escreveBoardLetraMenor("Pule na cor correta!");
    },5000);    
 
 }
@@ -351,7 +351,7 @@ function RemoveAnimacaoCaixaFinal(objCaixa){
 function Transporta5Segundos(){
    setTimeout(function() {
       window.location.href = "memory.html";
-    },10000);
+    },11000);
 }
 
 function TrocaCorCaixa() {
@@ -368,7 +368,7 @@ function TrocaCorCaixa() {
    if (cor === 'green') {
      
       // exibe mensagem de padrao encontrado
-     escreveBoardLetraMenor("Voce sera transportado!");
+     escreveBoardLetraMenor("Aguarde");
      
      // remove o eventListener se a cor for verde
      caixaFinal.removeEventListener('click', TrocaCorCaixa);
@@ -477,7 +477,7 @@ function CriaLabirinto(){
     
    var plat = DevolvePlataforma('yellow',76,-5,true)
    plat.addEventListener('collide',function(){
-      escreveBoardLetraMenor("Voce sera transportado!");
+      escreveBoardLetraMenor("Aguarde!");
       SomFinal();
       Transporta5Segundos();
    
